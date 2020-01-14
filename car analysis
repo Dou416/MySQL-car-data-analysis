@@ -1,0 +1,42 @@
+/*the most viewed cars in last 24 hours*/
+SELECT r.car_id, c.model, c.year, max(r.view_count)-min(r.view_count) as views
+FROM records as r join cars as c on r.car_id=c.id
+WHERE r.created_at >='2020-01-08 00:00:00' and r.created_at<'2020-01-09 00:00:00'
+GROUP BY r.car_id, c.model, c.year
+ORDER BY views DESC
+LIMIT 20;
+
+/*the most viewed cars in last 48 hours*/
+SELECT r.car_id, c.model, c.year, max(r.view_count)-min(r.view_count) as views
+FROM records as r join cars as c on r.car_id=c.id
+WHERE r.created_at >='2020-01-08 00:00:00' and r.created_at<'2020-01-10 00:00:00'
+GROUP BY r.car_id, c.model, c.year
+ORDER BY views DESC
+LIMIT 20;
+
+/*the most viewed cars in last 72 hours*/
+SELECT r.car_id, c.model, c.year, max(r.view_count)-min(r.view_count) as views
+FROM records as r join cars as c on r.car_id=c.id
+WHERE r.created_at >='2020-01-08 00:00:00' and r.created_at<'2020-01-11 00:00:00'
+GROUP BY r.car_id, c.model, c.year
+ORDER BY views DESC
+LIMIT 20;
+
+/*the cars which sell faster*/
+SELECT model, year, sale_on
+FROM cars
+WHERE created_at is not null and sale_on is not null
+ORDER BY TIMEDIFF(sale_on,created_at)
+LIMIT 20;
+/*LIMIT is an option*/
+
+/*average price of cars*/
+SELECT model, brand, year, avg(price) as average_price
+FROM cars
+GROUP BY model, brand, year;
+
+/*model and year of cars people view most*/
+SELECT r.car_id, c.model, c.year, max(r.view_count) as views
+FROM records as r join cars as c on r.car_id=c.id
+GROUP BY r.car_id, c.model, c.year
+ORDER BY views DESC;
